@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>情人节快乐</title>
+  <style>
+    /* 极简版样式 */
+    .level { display: none; min-height: 100vh; padding: 20px; }
+    .active { display: block; }
+    #heart { width: 50px; transition: all 0.3s; }
+    .shake { animation: shake 0.5s; }
+    @keyframes shake { 0%,100% {transform: translateX(0);} 25% {transform: translateX(10px);} 75% {transform: translateX(-10px);} }
+  </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱的密码</title>
+  <style>
+    .level {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div id="level1" class="level active">
+    <h2>❤️ 第一关：爱的密码</h2>
+    <p>请输入你们相遇的日期（格式：YYYYMMDD）</p>
+    <input type="number" id="password">
+    <button onclick="checkPassword()">解锁下一关</button>
+  </div>
+  <!-- 第二关：心跳测试 -->
+  <div id="level2" class="level">
+    <h2>💓 第二关：心跳挑战</h2>
+    <img id="heart" src="data:image/png;base64；C:\Users\LENOVO\Downloads">
+    <p>连续点击爱心10次！当前次数：<span id="count">0</span></p>
+  </div>
+
+  <!-- 第三关：最终告白 -->
+  <div id="level3" class="level">
+    <h2>🎉 最终关卡！</h2>
+    <button onclick="showLove()">点击查看答案</button>
+    <div id="loveEffect" style="display:none;">
+      <h1>我宣你！</h1>
+      <p>从相遇那天起，我的世界开始转动</p>
+      <canvas id="particles"></canvas>
+	  <audio autoplay loop src="D:\CloudMusic\VipSongsDownload\郁一凡 张荣昊 - 如果说.mp3" controls></audio>
+    </div>
+  </div>
+
+<script>
+// 极简版核心逻辑
+let currentLevel = 1;
+const PASS = '20240510'; // 改成你们的纪念日
+
+// 关卡切换
+function switchLevel(newLevel) {
+  document.querySelector('.active').classList.remove('active');
+  document.getElementById(`level${newLevel}`).classList.add('active');
+  currentLevel = newLevel;
+}
+
+// 第一关验证
+function checkPassword() {
+  if(document.getElementById('password').value === PASS) {
+    switchLevel(2);
+    initHeartGame();
+  } else {
+    alert('密码错误，提示：第一次见面日期');
+  }
+}
+
+// 第二关心跳游戏
+function initHeartGame() {
+  let count = 0;
+  const heart = document.getElementById('heart');
+  
+  heart.onclick = () => {
+    count++;
+    heart.classList.add('shake');
+    document.getElementById('count').textContent = count;
+    setTimeout(() => heart.classList.remove('shake'), 300);
+    
+    if(count >= 10) {
+      switchLevel(3);
+      initParticles();
+    }
+  }
+}
+
+// 第三关粒子特效
+function initParticles() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = 300;
+
+  // 简单粒子动画
+  let particles = Array(50).fill().map(() => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    speed: Math.random()*2+1
+  }));
+
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      p.y -= p.speed;
+      if(p.y < 0) p.y = canvas.height;
+      ctx.fillStyle = `hsl(${Math.random()*360}, 70%, 60%)`;
+      ctx.fillRect(p.x, p.y, 5, 5);
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+function showLove() {
+  document.getElementById('loveEffect').style.display = 'block';
+}
+</script>
+</body>
+</html>
